@@ -23,7 +23,17 @@ if (Meteor.isServer) {
   Meteor.methods({
     getItems: function () {
       return Items.find().fetch();
-    }
+    },
+
+    fetchItems: function () {
+      Items.find().fetch();
+      return null;
+    },
+
+    observeItems: function () {
+      Items.find().observe({added: Function.prototype});
+      return null;
+    },
   });
 
   // example publication
