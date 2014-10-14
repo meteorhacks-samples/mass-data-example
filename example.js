@@ -34,11 +34,25 @@ if (Meteor.isServer) {
       Items.find().observe({added: Function.prototype});
       return null;
     },
+
+    pollCount: function () {
+      return Items.find().count();
+    }
   });
 
   // example publication
+  var counter = 0;
   Meteor.publish('items', function () {
     return Items.find();
+  });
+
+  Meteor.publish('items-noreuse', function () {
+    return Items.find({_id: {$ne: counter++}});
+  });
+
+  // publish item count
+  Meteor.publish('items-count', function() {
+    Counts.publish(this, 'c_'+counter, Items.find({_id: {$ne: counter++}}));
   });
 
   // initialize meteor-shower
