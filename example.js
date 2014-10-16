@@ -21,6 +21,10 @@ if (Meteor.isServer) {
 
   // example method
   Meteor.methods({
+    doNothing: function (x) {
+      return null;
+    },
+
     getItems: function () {
       return Items.find().fetch();
     },
@@ -48,6 +52,41 @@ if (Meteor.isServer) {
 
   Meteor.publish('items-noreuse', function () {
     return Items.find({_id: {$ne: counter++}});
+  });
+
+  var first = Random.id(5000);
+  var changed = Random.id(5000);
+
+  Meteor.publish('items-stream', function () {
+    var self = this;
+    this.ready();
+
+    do_something();
+    function do_something () {
+      var id = Random.id();
+      Items.insert({_id: id, text: first});
+      Items.update({_id: id}, {$set: {text: changed}});
+      Items.remove({_id: id});
+      do_something();
+    }
+
+    return null;
+  });
+
+  Meteor.publish('custom-stream', function () {
+    var self = this;
+    this.ready();
+
+    do_something();
+    function do_something () {
+      var id = Random.id();
+      self.added('items', id, {text: first});
+      self.changed('items', id, {text: changed});
+      self.removed('items', id);
+      Meteor.setTimeout(do_something, 0);
+    }
+
+    return null;
   });
 
   // publish item count

@@ -1,8 +1,9 @@
+var _ = require('underscore');
 var MeteorShower = require('meteor-shower');
 
 var shower = new MeteorShower(function (error, client) {
-  client.call('pollCount', function (err, res) {
-    client.kill();
+  client.subscribe('items-stream', function () {
+    // do not kill the client
   });
 });
 

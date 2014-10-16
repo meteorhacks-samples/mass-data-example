@@ -31,8 +31,9 @@ logging@1.0.4
 meteor-platform@1.1.2
 meteor@1.1.2
 meteorhacks:kadira-binary-deps@1.2.0
-meteorhacks:kadira@2.11.9
+meteorhacks:kadira@2.11.10
 meteorhacks:meteor-shower@1.0.0
+meteorhacks:meteorx@1.2.0
 minifiers@1.1.1
 minimongo@1.0.4
 mobile-status-bar@1.0.1
