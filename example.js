@@ -94,9 +94,6 @@ if (Meteor.isServer) {
     Counts.publish(this, 'c_'+counter, Items.find({_id: {$ne: counter++}}));
   });
 
-  // initialize meteor-shower
-  MeteorDown.init('ec852009-77cf-4db0-8cdf-d84b63d4403b');
-
   // connect to Kadira
   Kadira.connect('8uu7DLdj8D9nFNaRK', '7150939c-c8bf-41b5-8531-e9244d63e0d2');
 }
