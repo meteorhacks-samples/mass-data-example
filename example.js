@@ -67,7 +67,7 @@ if (Meteor.isServer) {
       Items.insert({_id: id, text: first});
       Items.update({_id: id}, {$set: {text: changed}});
       Items.remove({_id: id});
-      do_something();
+      Meteor.setTimeout(do_something, 0);
     }
 
     return null;
@@ -95,7 +95,7 @@ if (Meteor.isServer) {
   });
 
   // initialize meteor-shower
-  MeteorShower.init('ec852009-77cf-4db0-8cdf-d84b63d4403b');
+  MeteorDown.init('ec852009-77cf-4db0-8cdf-d84b63d4403b');
 
   // connect to Kadira
   Kadira.connect('8uu7DLdj8D9nFNaRK', '7150939c-c8bf-41b5-8531-e9244d63e0d2');

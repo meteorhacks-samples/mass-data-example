@@ -1,13 +1,10 @@
-var _ = require('underscore');
-var MeteorShower = require('meteor-shower');
-
-var shower = new MeteorShower(function (error, client) {
+var mdown = new MeteorDown(function (error, client) {
   client.subscribe('custom-stream', function () {
     // do not kill the client
   });
 });
 
-shower.run({
+mdown.run({
   concurrency: 10,
   url: process.env.URL || 'http://localhost:3000',
   key: 'ec852009-77cf-4db0-8cdf-d84b63d4403b',
