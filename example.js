@@ -29,6 +29,10 @@ if (Meteor.isServer) {
 
     pollCount: function () {
       return Items.find().count();
+    },
+
+    triggerError: function () {
+      throw new Error('test error');
     }
   });
 
