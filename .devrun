@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export METEOR_DOWN_KEY='ec852009-77cf-4db0-8cdf-d84b63d4403b'
-meteor
