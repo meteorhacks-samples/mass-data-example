@@ -39,13 +39,12 @@ if (Meteor.isServer) {
   });
 
   // example publication
-  var counter = 0;
   Meteor.publish('items', function () {
     return Items.find();
   });
 
   Meteor.publish('items-noreuse', function () {
-    return Items.find({_id: {$ne: counter++}});
+    return Items.find({_id: {$ne: get_id()}});
   });
 
   var first = Random.id(5000);
@@ -56,9 +55,9 @@ if (Meteor.isServer) {
     this.ready();
     send_data();
     function send_data() {
-      Items.insert({_id: counter++, text: first});
-      Items.update({_id: counter++}, {$set: {text: changed}});
-      Items.remove({_id: counter++});
+      var id = Items.insert({text: first});
+      Items.update({_id: id}, {$set: {text: changed}});
+      Items.remove({_id: id});
       Meteor.setTimeout(send_data, 0);
     }
   });
@@ -68,18 +67,25 @@ if (Meteor.isServer) {
     this.ready();
     send_data();
     function send_data() {
-      self.added('items', counter++, {text: first});
-      self.changed('items', counter++, {text: changed});
-      self.removed('items', counter++);
+      var id = get_id();
+      self.added('custom', id, {text: first});
+      self.changed('custom', id, {text: changed});
+      self.removed('custom', id);
       Meteor.setTimeout(send_data, 0);
     }
   });
 
   // publish item count
   Meteor.publish('items-count', function () {
-    Counts.publish(this, 'c_'+counter, Items.find({_id: {$ne: counter++}}));
+    Counts.publish(this, 'c_'+counter, Items.find({_id: {$ne: get_id()}}));
   });
 
   // connect to Kadira
   Kadira.connect('8uu7DLdj8D9nFNaRK', '7150939c-c8bf-41b5-8531-e9244d63e0d2');
+
+  // helpers
+  var counter = 0;
+  function get_id () {
+    return (counter++).toString();
+  }
 }
