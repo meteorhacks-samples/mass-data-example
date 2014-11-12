@@ -23,7 +23,8 @@ if (Meteor.isServer) {
     },
 
     observeItems: function () {
-      Items.find().observe({added: Function.prototype});
+      var handler = Items.find().observe({added: Function.prototype});
+      handler.stop();
       return null;
     },
 
