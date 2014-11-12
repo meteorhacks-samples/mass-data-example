@@ -4,7 +4,7 @@
 # but you can also edit it by hand.
 
 meteor-platform
-meteorhacks:kadira
 accounts-password
 tmeasday:publish-counts
+meteorhacks:kadira
 
