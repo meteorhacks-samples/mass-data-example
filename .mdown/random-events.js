@@ -3,7 +3,7 @@ mdown.init(function (Meteor) {
 });
 
 mdown.run({
-  concurrency: 5,
+  concurrency: 10,
   url: process.env.URL || 'http://localhost:3000'
 });
 
