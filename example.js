@@ -52,36 +52,54 @@ if (Meteor.isServer) {
 
   Meteor.publish('items-stream', function () {
     var self = this;
+    var timer = null;
     this.ready();
+    this.onStop(function () {
+      timer && Meteor.clearTimeout(timer);
+    });
+
     send_data();
     function send_data() {
       var id = Items.insert({text: first});
       Items.update({_id: id}, {$set: {text: changed}});
       Items.remove({_id: id});
-      Meteor.setTimeout(send_data, 0);
+      timer = Meteor.setTimeout(send_data, 100);
     }
   });
 
   Meteor.publish('custom-stream', function () {
     var self = this;
+    var timer = null;
     this.ready();
+    this.onStop(function () {
+      timer && Meteor.clearTimeout(timer);
+    })
+
     send_data();
     function send_data() {
       var id = get_id();
       self.added('custom', id, {text: first});
       self.changed('custom', id, {text: changed});
       self.removed('custom', id);
-      Meteor.setTimeout(send_data, 0);
+      timer = Meteor.setTimeout(send_data, 100);
     }
   });
 
   // publish item count
   Meteor.publish('items-count', function () {
-    Counts.publish(this, 'c_'+counter, Items.find({_id: {$ne: get_id()}}));
+    Counts.publish(this, 'items', Items.find({_id: {$ne: get_id()}}));
+  });
+
+  Meteor.publish('items-count-nr', function () {
+    var opts = {nonReactive: true};
+    Counts.publish(this, 'items-nr', Items.find({_id: {$ne: get_id()}}), opts);
   });
 
   // connect to Kadira
-  Kadira.connect('8uu7DLdj8D9nFNaRK', '7150939c-c8bf-41b5-8531-e9244d63e0d2');
+  // Kadira.connect('C43kzqyeXfDAMEByA', 'c9b66ded-19b2-488b-b5e9-5b0125e3c9e9');
+  Kadira.connect('dmMW2wXgzNtv9Mi8W', '865a2908-61b9-4b33-a83f-d7d32f6e122c', {
+    endpoint: 'http://localhost:11011'
+  });
 
   // helpers
   var counter = 0;

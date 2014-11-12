@@ -23,6 +23,11 @@ var actions = [
       Meteor.kill();
     });
   },
+  function get_count_by_pubsub_nonreactive(Meteor) {
+    Meteor.subscribe('items-count-nr', function (err, res) {
+      Meteor.kill();
+    });
+  },
   function get_data_by_method(Meteor) {
     Meteor.call('getItems', function (err, res) {
       Meteor.kill();
@@ -30,16 +35,12 @@ var actions = [
   },
   function get_data_by_pubsub_changes(Meteor) {
     Meteor.subscribe('items-stream', function () {
-      setTimeout(function () {
-        Meteor.kill();
-      }, 5 * 1000);
+      setTimeout(function () { Meteor.kill() }, 1000);
     });
   },
   function get_data_by_pubsub_custom(Meteor) {
     Meteor.subscribe('custom-stream', function () {
-      setTimeout(function () {
-        Meteor.kill();
-      }, 5 * 1000);
+      setTimeout(function () { Meteor.kill() }, 1000);
     });
   },
   function get_data_by_pubsub_noreuse(Meteor) {
