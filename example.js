@@ -8,6 +8,18 @@ if (Meteor.isServer) {
     });
   }
 
+  // add example users
+  if(!Meteor.users.find().count()) {
+    Meteor.users.insert({
+      _id: 'TQipcT99XjB4W9vvK',
+      createdAt: new Date(),
+      emails: [{address: 'user@gmail.com', verified: true}],
+      services: {'password': {
+        bcrypt: '$2a$10$71RPlxQIdpCLNdLa/IPwqOxVzezBk4Iuyonh/3nlxJ6nrpNDdn61G'
+      }}
+    });
+  }
+
   // example method
   Meteor.methods({
     doNothing: function (x) {
